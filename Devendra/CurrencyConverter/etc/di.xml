@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @author Devendra Gupta
+ * @package Devendra_CurrencyConverter
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference
+        for="Devendra\CurrencyConverter\Api\CurrencyConverterClientInterface"
+        type="Devendra\CurrencyConverter\Model\CurrencyConverterClient"/>
+
+</config>

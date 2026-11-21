@@ -1,0 +1,231 @@
+
+<?php
+/**
+ * Currency Converter Template
+ *
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+$currenciesUrl = $block->getUrl(
+    'currencyconverter/ajax/index'
+);
+
+$rateUrl = $block->getUrl(
+    'currencyconverter/ajax/rate'
+);
+
+$historyUrl = $block->getUrl(
+    'currencyconverter/ajax/history'
+);
+?>
+
+<div class="currency-converter"
+     id="currency-converter"
+     data-mage-init='{
+        "Devendra_CurrencyConverter/js/converter": {
+            "currenciesUrl": "<?= $escaper->escapeUrl($currenciesUrl) ?>",
+            "rateUrl": "<?= $escaper->escapeUrl($rateUrl) ?>",
+            "historyUrl": "<?= $escaper->escapeUrl($historyUrl) ?>"
+        }
+     }'>
+
+    <div class="converter-header">
+        <h1><?= $escaper->escapeHtml(
+            __('Currency Exchange Converter')
+        ) ?></h1>
+
+        <p>
+            <?= $escaper->escapeHtml(
+                __('Convert currencies and track historical exchange rates.')
+            ) ?>
+        </p>
+    </div>
+
+    <div class="converter-card">
+
+        <div class="converter-form">
+
+            <!-- Amount -->
+            <div class="field amount-field">
+                <label for="converter-amount">
+                    <?= $escaper->escapeHtml(__('Amount')) ?>
+                </label>
+
+                <input
+                    type="number"
+                    id="converter-amount"
+                    value="1"
+                    min="0"
+                    step="any"
+                    placeholder="Enter amount"
+                />
+            </div>
+
+            <div class="currency-selection">
+
+                <!-- From Currency -->
+                <div class="field">
+                    <label for="from-currency">
+                        <?= $escaper->escapeHtml(__('From')) ?>
+                    </label>
+
+                    <select id="from-currency">
+                        <option value="USD">USD</option>
+                    </select>
+                </div>
+
+                <!-- Swap -->
+                <button
+                    type="button"
+                    id="swap-currencies"
+                    class="swap-button"
+                    aria-label="<?= $escaper->escapeHtmlAttr(
+                        __('Swap currencies')
+                    ) ?>"
+                    title="<?= $escaper->escapeHtmlAttr(
+                        __('Swap currencies')
+                    ) ?>"
+                >
+                    <span aria-hidden="true">⇄</span>
+                </button>
+
+                <!-- To Currency -->
+                <div class="field">
+                    <label for="to-currency">
+                        <?= $escaper->escapeHtml(__('To')) ?>
+                    </label>
+
+                    <select id="to-currency">
+                        <option value="INR">INR</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Conversion Result -->
+            <div class="conversion-result">
+
+                <div class="result-label">
+                    <?= $escaper->escapeHtml(
+                        __('Converted Amount')
+                    ) ?>
+                </div>
+
+                <div
+                    id="converted-amount"
+                    class="converted-amount"
+                    aria-live="polite"
+                >
+                    --
+                </div>
+
+                <div
+                    id="exchange-rate"
+                    class="exchange-rate"
+                    aria-live="polite"
+                >
+                    <?= $escaper->escapeHtml(
+                        __('Exchange rate will appear here')
+                    ) ?>
+                </div>
+
+            </div>
+
+            <!-- Status -->
+            <div
+                id="converter-loading"
+                class="converter-loading"
+                role="status"
+                aria-live="polite"
+                hidden
+            >
+                <?= $escaper->escapeHtml(
+                    __('Loading exchange rate...')
+                ) ?>
+            </div>
+
+            <div
+                id="converter-error"
+                class="converter-error"
+                role="alert"
+                hidden
+            ></div>
+
+        </div>
+
+    </div>
+
+    <!-- Historical Chart -->
+    <div class="history-card">
+
+        <div class="history-header">
+
+            <div>
+                <h2>
+                    <?= $escaper->escapeHtml(
+                        __('Historical Exchange Rates')
+                    ) ?>
+                </h2>
+
+                <p>
+                    <?= $escaper->escapeHtml(
+                        __('Track how exchange rates have changed over time.')
+                    ) ?>
+                </p>
+            </div>
+
+            <div class="history-filter">
+
+                <label for="history-range">
+                    <?= $escaper->escapeHtml(__('Period')) ?>
+                </label>
+
+                <select id="history-range">
+                    <option value="7">7 Days</option>
+                    <option value="30" selected>30 Days</option>
+                    <option value="90">90 Days</option>
+                    <option value="365">1 Year</option>
+                </select>
+
+            </div>
+
+        </div>
+
+        <div
+            id="history-loading"
+            class="converter-loading"
+            role="status"
+            hidden
+        >
+            <?= $escaper->escapeHtml(
+                __('Loading historical data...')
+            ) ?>
+        </div>
+
+        <div
+            id="history-error"
+            class="converter-error"
+            role="alert"
+            hidden
+        ></div>
+
+        <div class="chart-container">
+            <canvas
+                id="exchange-history-chart"
+                role="img"
+                aria-label="<?= $escaper->escapeHtmlAttr(
+                    __('Historical exchange rate chart')
+                ) ?>"
+            ></canvas>
+        </div>
+
+    </div>
+
+    <div class="converter-disclaimer">
+        <?= $escaper->escapeHtml(
+            __('Exchange rates are reference rates and may differ from actual transaction rates.')
+        ) ?>
+    </div>
+
+</div>
